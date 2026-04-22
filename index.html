@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAPTION — Dual Engine EN⇄ES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="bg-circle"></div><div class="bg-circle-sm"></div>
+  <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+  <div class="dot-acc" style="top:27%;left:11%;"></div>
+  <div class="dot-acc" style="top:62%;left:6%;"></div>
+  <div class="dot-acc" style="top:32%;right:10%;"></div>
+  <div class="dot-acc" style="top:67%;right:15%;"></div>
+  <div class="hud" style="top:18px;left:22px;">≡<br>DUAL</div>
+  <div class="hud" style="top:18px;right:22px;text-align:right;">01<br>LIVE</div>
+  <div class="hud" style="bottom:50px;left:22px;" id="dirHud">EN ⇄ ES</div>
+  <div class="hud" style="bottom:50px;right:22px;" id="wHud">0 W</div>
+  <div class="brand-tag">CAPT__</div>
+
+  <div class="notif" id="notif"></div>
+
+  <!-- ── MENÚ ACCESIBILIDAD ── -->
+  <div class="acc-menu-wrap" id="accMenuWrap">
+    <button class="acc-toggle" id="accToggle" title="Accesibilidad y subtítulos">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <span>ACC</span>
+    </button>
+    <div class="acc-panel" id="accPanel">
+      <div class="acc-header">SUBTÍTULOS &amp; TRADUCCIÓN</div>
+
+      <!-- Tamaño de subtítulos -->
+      <div class="acc-section">
+        <div class="acc-label">TAMAÑO DE SUBTÍTULOS</div>
+        <div class="acc-slider-row">
+          <span class="acc-val">S</span>
+          <input type="range" id="fontSizeSlider" min="1" max="5" value="3" class="acc-slider">
+          <span class="acc-val">XL</span>
+        </div>
+        <div class="acc-hint" id="fontSizeHint">NORMAL</div>
+      </div>
+
+      <!-- Velocidad de aparición -->
+      <div class="acc-section">
+        <div class="acc-label">VELOCIDAD DE ACTUALIZACIÓN</div>
+        <div class="acc-slider-row">
+          <span class="acc-val">LENTO</span>
+          <input type="range" id="speedSlider" min="1" max="3" value="2" class="acc-slider">
+          <span class="acc-val">RÁPIDO</span>
+        </div>
+        <div class="acc-hint" id="speedHint">NORMAL</div>
+      </div>
+
+      <!-- Precisión / silencio -->
+      <div class="acc-section">
+        <div class="acc-label">SENSIBILIDAD AL SILENCIO</div>
+        <div class="acc-slider-row">
+          <span class="acc-val">ALTA</span>
+          <input type="range" id="silenceSlider" min="1" max="3" value="2" class="acc-slider">
+          <span class="acc-val">BAJA</span>
+        </div>
+        <div class="acc-hint" id="silenceHint">700ms — BALANCEADO</div>
+      </div>
+
+      <!-- NOTAS -->
+      <div class="acc-notes-divider"></div>
+      <div class="acc-notes-section">
+        <button class="notes-open-btn" id="notesOpenBtn">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          NOTAS
+          <span class="notes-count-badge" id="notesCountBadge">0</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── NOTEPAD OVERLAY ── -->
+  <div class="notepad-overlay" id="notepadOverlay">
+    <div class="notepad-panel" id="notepadPanel">
+      <div class="notepad-head">
+        <div>
+          <div class="notepad-title">NOTAS</div>
+          <div class="notepad-title-sub">LIBRETA DE SESIÓN</div>
+        </div>
+        <button class="notepad-close" id="notepadClose">✕ CERRAR</button>
+      </div>
+      <div class="notepad-toolbar">
+        <button class="notepad-tb-btn accent" id="notepadSaveBtn">+ GUARDAR NOTA</button>
+        <div class="notepad-size-ctrl">
+          <button class="notepad-size-btn" id="notepadFontDec" title="Texto más pequeño">A−</button>
+          <span class="notepad-size-label" id="notepadFontLabel">11px</span>
+          <button class="notepad-size-btn" id="notepadFontInc" title="Texto más grande">A+</button>
+        </div>
+        <button class="notepad-tb-btn danger" id="notepadClearAllBtn">⊘ LIMPIAR TODO</button>
+      </div>
+      <div class="notepad-body" id="notepadBody">
+        <textarea class="notepad-textarea" id="notepadTextarea" placeholder="ESCRIBE TU NOTA AQUÍ...&#10;&#10;· CTRL+ENTER PARA GUARDAR&#10;· TAB PARA CERRAR" rows="7"></textarea>
+        <div class="notepad-saved-list" id="notepadSavedList">
+          <div class="notepad-empty" id="notepadEmpty">— SIN NOTAS GUARDADAS —</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="source-tag" id="sourceTag"></div>
+  <div class="lang-badge" id="langBadge">EN</div>
+
+  <!-- MODE SELECTOR -->
+  <div class="mode-selector" id="modeSelector">
+    <div class="mode-title">CAPTION</div>
+    <!-- SELECTOR DE IDIOMA DE RECONOCIMIENTO -->
+    <div class="lang-mode-wrap">
+      <div class="lang-mode-bar" id="langModeBar">
+        <button class="lang-mode-btn lm-es active" id="lmBtnEs">ES</button>
+        <button class="lang-mode-btn lm-en" id="lmBtnEn">EN</button>
+      </div>
+      <div class="lang-mode-hint">MODO DE RECONOCIMIENTO &nbsp;·&nbsp; CTRL = CAMBIAR &nbsp;·&nbsp; ALT = MUTEAR &nbsp;·&nbsp; TAB = NOTAS</div>
+    </div>
+
+    <div class="mode-btns">
+      <button class="mode-btn mic-mode" id="btnMic">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        MICRÓFONO
+      </button>
+      <button class="mode-btn tab-mode" id="btnTab">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        COMPARTIR PESTAÑA
+      </button>
+    </div>
+  </div>
+
+  <!-- CAPTION AREA -->
+  <div class="caption-area" id="captionArea">
+    <div class="col-headers">
+      <div class="col-header en-lbl" id="lblLeft">EN</div>
+      <div class="col-header-sep"></div>
+      <div class="col-header es-lbl" id="lblRight">ES</div>
+    </div>
+    <div class="paras-outer" id="parasOuter">
+      <div class="paras-fade-top"></div>
+      <div class="scroll-hint" id="scrollHint">↑ &nbsp; HISTORIAL &nbsp; · &nbsp; RUEDA DEL MOUSE</div>
+      <div class="para-count" id="paraCount"></div>
+      <div class="paras-inner" id="parasInner"></div>
+      <div class="paras-fade-bot"></div>
+    </div>
+  </div>
+
+  <button class="back-btn" id="backBtn">↓ &nbsp; VOLVER AL PRESENTE</button>
+
+  <div class="bottom-bar">
+    <div class="nav-items">
+      <span class="nav-item active">LIVE</span>
+      <span class="nav-item" id="modeLabel">—</span>
+      <button class="clear-x" id="clearBtn">CLR</button>
+    </div>
+    <div class="bottom-btns">
+      <div class="lang-mode-pill" id="langModePill" title="Clic para cambiar modo">AUTO</div>
+      <button class="ctrl-btn mute-btn" id="muteBtn">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        <span id="muteLbl">MUTEAR</span>
+      </button>
+      <button class="ctrl-btn tab-live-btn" id="tabLiveBtn">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        PESTAÑA
+      </button>
+      <button class="ctrl-btn stop-btn" id="stopBtn">
+        <div class="mic-dot" id="micDot"></div>
+        <span>DETENER</span>
+      </button>
+      <button class="ctrl-btn restart-btn" id="restartBtn">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+        NUEVA SESIÓN
+      </button>
+    </div>
+    <div class="counter" id="wCount">0 PALABRAS</div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
